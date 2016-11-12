@@ -1,22 +1,20 @@
 from flask import *
-from utils import smartResponse
-
+from utils import smartResponse, db
+import pprint
 app = Blueprint(__name__, "server")
 
 # =================================================
 # Welcome
 # =================================================
-@app.route("/incoming", methods=['POST'])
+@app.route("/getFlights", methods=['POST'])
 def getText():
-	
-	# Get form
-    forms = request.form    
-    from_ = forms['From']
-    message = forms['Body']
+    data = request.get_json(silent=True)
+    fromLocation = data.get("fromLoc")
+    toLocation = data.get("toLoc")
+    date = data.get("date")
 
-    # Send out smart response
-    smartResponse.smartResponse(from_, message)
-
-    # Return
-    print from_ , message
-    return "ASD"
+    return smartResponse.smartResponse("getFlights", {
+        "from":fromLocation,
+        "to":toLocation,
+        "date":date
+    })
