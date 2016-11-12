@@ -70,11 +70,24 @@ def cheapestFlightResponse(variables):
             itineraryText += "Arrives at " + destinationAirport + ", terminal " + destinationTerminal + " on " + arrivesAt + "\n\n"
             itineraryText += "Flight number: " + flightNumber
 
-            if destinationAirport == to:
-                outputList.append(itineraryText)
-            else:
-                print(destinationAirport)
-                print(to)
+            print("from origin airport")
+            print(originAirport)
+            print("\n\n")
+
+            print("from out of")
+            print(outOf)
+            print("\n\n")
+
+            print("from destination airport")
+            print(destinationAirport)
+            print("\n\n")
+
+            print("from to")
+            print(to)
+            print("\n\n")
+
+            outputList.append(itineraryText)
+            
     #     my_itinerary = '\n ... -> ... \n'.join(itinerary_list)
     #     outputList.append(my_itinerary)
 
