@@ -1,5 +1,6 @@
 import sendText
 import getFlights
+import toDate
 import pprint
 
 def smartResponse(to, inputText):
@@ -32,18 +33,18 @@ def cheapestFlightResponse(inputText):
         airline = flight["operating_airline"]
         flightNumber = flight["flight_number"]
 
-        departsAt = flight["departs_at"]
+        departsAt = toDate.toDate(flight["departs_at"])
         originAirport = flight["origin"]["airport"]
         originTerminal = flight["origin"]["terminal"]
 
-        arrivesAt = flight0["arrives_at"]
+        arrivesAt = toDate.toDate(flight["arrives_at"])
         destinationAirport = flight["destination"]["airport"]
         destinationTerminal = flight["destination"]["terminal"]
 
         outputText = ""
         outputText += "$" + fare + " " + airline + " flight" + "\n\n"
-        outputText += "Departs from " + originAirport + ", terminal " + originTerminal + " at " + departsAt + "\n\n"
-        outputText += "Arrives at " + destinationAirport + ", terminal " + destinationTerminal + " at " + arrivesAt + "\n\n"
+        outputText += "Departs from " + originAirport + ", terminal " + originTerminal + " on " + departsAt + "\n\n"
+        outputText += "Arrives at " + destinationAirport + ", terminal " + destinationTerminal + " on " + arrivesAt + "\n\n"
         outputText += "Flight number: " + flightNumber
 
         outputList.append(outputText)
