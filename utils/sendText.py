@@ -8,5 +8,5 @@ def sendText(to, body):
     client.messages.create(
         to = to,
         from_ = '2062072038',
-        body = body,
+        body = "\n\n" + body,
     )

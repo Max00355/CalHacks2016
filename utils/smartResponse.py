@@ -10,10 +10,11 @@ def smartResponse(to, inputText):
     # Turn input text into "outOf, to, leaves" -> NOT DOING THIS YET
 
     # Determine what kind of request it is, cheap / first class / etc. -> RIGHT NOW ONLY DOING CHEAPEST
-    outputText = cheapestFlightResponse(inputText)
+    outputList = cheapestFlightResponse(inputText)
 
-    # send text message
-    sendText.sendText(to, outputText)
+    # Send output texts
+    for outputText in outputList:
+        sendText.sendText(to, outputText)
 
 def cheapestFlightResponse(inputText):
 
@@ -25,23 +26,28 @@ def cheapestFlightResponse(inputText):
 
     refundable = result["fare"]["restrictions"]["refundable"]
     fare = result["fare"]["total_price"]
+    flights = result["itineraries"][0]["outbound"]["flights"]
+    outputList = []
+    for flight in flights:
+        airline = flight["operating_airline"]
+        flightNumber = flight["flight_number"]
 
-    flight0 = result["itineraries"][0]["outbound"]["flights"][0]
+        departsAt = flight["departs_at"]
+        originAirport = flight["origin"]["airport"]
+        originTerminal = flight["origin"]["terminal"]
 
-    airline = flight0["operating_airline"]
-    flightNumber = flight0["flight_number"]
+        arrivesAt = flight0["arrives_at"]
+        destinationAirport = flight["destination"]["airport"]
+        destinationTerminal = flight["destination"]["terminal"]
 
-    departsAt = flight0["departs_at"]
-    originAirport = flight0["origin"]["airport"]
-    originTerminal = flight0["origin"]["terminal"]
+        outputText = ""
+        outputText += "$" + fare + " " + airline + " flight" + "\n\n"
+        outputText += "Departs from " + originAirport + ", terminal " + originTerminal + " at " + departsAt + "\n\n"
+        outputText += "Arrives at " + destinationAirport + ", terminal " + destinationTerminal + " at " + arrivesAt + "\n\n"
+        outputText += "Flight number: " + flightNumber
 
-    arrivesAt = flight0["arrives_at"]
-    destinationAirport = flight0["destination"]["airport"]
-    destinationTerminal = flight0["destination"]["terminal"]
-
-    outputText = "There is a $" + fare + " " + airline + " flight that departs from " + originAirport + ", terminal " + originTerminal + " at " + departsAt + " and arrives at " + destinationAirport + ", terminal " + destinationTerminal + " at " + arrivesAt + ". Flight number " + flightNumber
-
-    return outputText
+        outputList.append(outputText)
+    return outputList
 
 
 
