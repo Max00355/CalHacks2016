@@ -1,6 +1,6 @@
-from flask import Flask
+from flask import *
 
-app = Flask(__name__)
+app = Blueprint(__name__, "server")
 
 # =================================================
 # Welcome
@@ -11,5 +11,3 @@ def welcome():
 	print(my_str)
 	return my_str
 
-if __name__ == '__main__':
-	app.run()
