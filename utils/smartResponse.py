@@ -86,8 +86,10 @@ def cheapestFlightResponse(variables):
             print(to)
             print("\n\n")
 
-            outputList.append(itineraryText)
-            
+            if originAirport == outOf and destinationAirport == to:
+                print("MATCHED")
+                outputList.append(itineraryText)
+
     #     my_itinerary = '\n ... -> ... \n'.join(itinerary_list)
     #     outputList.append(my_itinerary)
 
