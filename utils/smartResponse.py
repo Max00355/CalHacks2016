@@ -17,7 +17,7 @@ def smartResponse(messageType, variables): # Will change to smartResponse(to, me
 
     # Determine what kind of request it is, cheap / first class / etc. -> RIGHT NOW ONLY DOING CHEAPEST
     if messageType == "getFlights":
-        outputList = cheapestFlightResponse(variables)
+        outputList = cheapestFlightResponse(variables)[:2]
     elif messageType == "getHotels":
         outputList = cheapestHotelsResponse(variables)[:2]
     elif messageType == "getCarRentals":
@@ -25,8 +25,8 @@ def smartResponse(messageType, variables): # Will change to smartResponse(to, me
     else:
         outputList = ["Sorry, I'm not sure I understand."] 
     # Send output texts
-    return '\n----------\n\n'.join(outputList)
-o
+    return '\n\n----------\n\n'.join(outputList)
+
 def cheapestFlightResponse(variables):
     outOf = variables['from']
     to = variables['to']
@@ -38,37 +38,74 @@ def cheapestFlightResponse(variables):
     flightJson = getFlights.getCheapestFlights(outOf, to, leaves)
     if "message" in flightJson.keys():
         return [flightJson['message']]
-    result = flightJson["results"][0]
-    
-    refundable = result["fare"]["restrictions"].get("refundable", "False")
-    fare = result.get("fare", {}).get("total_price", "Unknown")
 
-    itineraries = result.get("itineraries", [])
     outputList = []
-    for itinerary in itineraries:
-        flight = itinerary.get("outbound", {}).get("flights")[0]
-        #for flight in flights:
-        airline = getAirline.getAirline(flight.get("operating_airline", "Unknown"))
-        flightNumber = flight.get("flight_number", "Unknown")
+    for result in flightJson["results"]:
+        refundable = result["fare"]["restrictions"].get("refundable", "False")
+        fare = result.get("fare", {}).get("total_price", "Unknown")
 
-        departsAt = toDate.toDate(flight.get("departs_at", "Unknown"))
-        originAirport = flight.get("origin", {}).get("airport", "Unknown")
-        originTerminal = flight.get("origin", {}).get("terminal", "Unknown")
+        itinerary_list = []
+        for itinerary in result.get("itineraries", []):
+            flight = itinerary.get("outbound", {}).get("flights")[0]
+            #for flight in flights:
+            airline = getAirline.getAirline(flight.get("operating_airline", "Unknown"))
+            flightNumber = flight.get("flight_number", "Unknown")
+
+            departsAt = toDate.toDate(flight.get("departs_at", "Unknown"))
+            originAirport = flight.get("origin", {}).get("airport", "Unknown")
+            originTerminal = flight.get("origin", {}).get("terminal", "Unknown")
+            
+            if flight.get("arrives_at"):
+                arrivesAt = toDate.toDate(flight["arrives_at"])
+            else:
+                arrivesAt = "Unknown"
+            destinationAirport = flight.get("destination", {}).get("airport", "Unknown")
+            destinationTerminal = flight.get("destination", "Unknown").get("terminal", "Unknown")
+
+            itineraryText = ""
+            itineraryText += "$" + fare + " " + airline + " flight" + "\n\n"
+            itineraryText += "Departs from " + originAirport + ", terminal " + originTerminal + " on " + departsAt + "\n\n"
+            itineraryText += "Arrives at " + destinationAirport + ", terminal " + destinationTerminal + " on " + arrivesAt + "\n\n"
+            itineraryText += "Flight number: " + flightNumber
+
+            itinerary_list.append(itineraryText)
+
+        my_itinerary = '\n ... -> ... \n'.join(itinerary_list)
+        output.append(my_itinerary)
+
+    return outputList
+
+    # result = flightJson["results"][0]
+    
+    # refundable = result["fare"]["restrictions"].get("refundable", "False")
+    # fare = result.get("fare", {}).get("total_price", "Unknown")
+
+    # itineraries = result.get("itineraries", [])
+    # outputList = []
+    # for itinerary in itineraries:
+    #     flight = itinerary.get("outbound", {}).get("flights")[0]
+    #     #for flight in flights:
+    #     airline = getAirline.getAirline(flight.get("operating_airline", "Unknown"))
+    #     flightNumber = flight.get("flight_number", "Unknown")
+
+    #     departsAt = toDate.toDate(flight.get("departs_at", "Unknown"))
+    #     originAirport = flight.get("origin", {}).get("airport", "Unknown")
+    #     originTerminal = flight.get("origin", {}).get("terminal", "Unknown")
         
-        if flight.get("arrives_at"):
-            arrivesAt = toDate.toDate(flight["arrives_at"])
-        else:
-            arrivesAt = "Unknown"
-        destinationAirport = flight.get("destination", {}).get("airport", "Unknown")
-        destinationTerminal = flight.get("destination", "Unknown").get("terminal", "Unknown")
+    #     if flight.get("arrives_at"):
+    #         arrivesAt = toDate.toDate(flight["arrives_at"])
+    #     else:
+    #         arrivesAt = "Unknown"
+    #     destinationAirport = flight.get("destination", {}).get("airport", "Unknown")
+    #     destinationTerminal = flight.get("destination", "Unknown").get("terminal", "Unknown")
 
-        outputText = ""
-        outputText += "$" + fare + " " + airline + " flight" + "\n\n"
-        outputText += "Departs from " + originAirport + ", terminal " + originTerminal + " on " + departsAt + "\n\n"
-        outputText += "Arrives at " + destinationAirport + ", terminal " + destinationTerminal + " on " + arrivesAt + "\n\n"
-        outputText += "Flight number: " + flightNumber
+    #     outputText = ""
+    #     outputText += "$" + fare + " " + airline + " flight" + "\n\n"
+    #     outputText += "Departs from " + originAirport + ", terminal " + originTerminal + " on " + departsAt + "\n\n"
+    #     outputText += "Arrives at " + destinationAirport + ", terminal " + destinationTerminal + " on " + arrivesAt + "\n\n"
+    #     outputText += "Flight number: " + flightNumber
 
-        outputList.append(outputText)
+    #     outputList.append(outputText)
 
 
     return outputList
