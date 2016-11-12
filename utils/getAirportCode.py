@@ -2,7 +2,11 @@ import json
 
 def getAirportCode(airportName, state=None):
     if len(airportName) == 3:
-        return airportName
+        citiesAbbr = json.load(open("utils/citiesAbbrJson.json"))
+        if airportName in citiesAbbr.keys():
+            airportName = citiesAbbr[airportName]
+        else:
+            return airportName
     jsonData = json.load(open("utils/airportsJson.json"))
     bestMatch = {
         "bestMatch":-1,
