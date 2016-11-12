@@ -4,7 +4,7 @@ months = {1: 'January', 2: 'February', 3: 'March', 4: 'April', 5: 'May', 6: 'Jun
 endings = {1: 'st', 2: 'nd', 3: 'rd'}
 
 def toDate(dateStr):
-    date = datetime.datetime.strptime(my_date, '%Y-%m-%dT%H:%M')
+    date = datetime.datetime.strptime(dateStr, '%Y-%m-%dT%H:%M')
 
     ending = "th"
     if date.day == 1:
@@ -14,10 +14,10 @@ def toDate(dateStr):
     elif date.day == 3:
         ending = endings[3]
 
-    outputText = months[date.year] + " " + date.day + ending + ", " + date.year + " " + amOrPm(date.hour, date.minute)
+    outputText = months[date.month] + " " + str(date.day) + ending + ", " + str(date.year) + " " + amOrPm(date.hour, date.minute)
     return outputText
 
 def amOrPm(hour, minute):
-    hourMinuteString = date.hour + ":" + date.minute
-    d = datetime.strptime(hourMinuteString, "%H:%M")
+    hourMinuteString = "{}:{}".format(hour, minute)
+    d = datetime.datetime.strptime(hourMinuteString, "%H:%M")
     return d.strftime("%I:%M %p")
