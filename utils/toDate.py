@@ -1,11 +1,11 @@
 import datetime
+from dateutil import parser
 
 months = {1: 'January', 2: 'February', 3: 'March', 4: 'April', 5: 'May', 6: 'June', 7: 'July', 8: 'August', 9: 'September', 10: 'October', 11: 'November', 12: 'December'}
 endings = {1: 'st', 2: 'nd', 3: 'rd'}
 
-def toDate(dateStr):
-    date = datetime.datetime.strptime(dateStr, '%Y-%m-%dT%H:%M')
-
+def toDate(date):
+    date = parser.parse(date)
     ending = "th"
     if date.day == 1:
         ending = endings[1]
