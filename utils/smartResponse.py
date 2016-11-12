@@ -36,7 +36,7 @@ def cheapestFlightResponse(inputText):
         originAirport = flight["origin"]["airport"]
         originTerminal = flight["origin"]["terminal"]
 
-        arrivesAt = flight0["arrives_at"]
+        arrivesAt = flight["arrives_at"]
         destinationAirport = flight["destination"]["airport"]
         destinationTerminal = flight["destination"]["terminal"]
 
