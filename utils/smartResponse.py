@@ -36,7 +36,7 @@ def cheapestFlightResponse(inputText):
         departsAt = toDate.toDate(flight["departs_at"])
         originAirport = flight["origin"]["airport"]
         originTerminal = flight["origin"]["terminal"]
-
+        
         arrivesAt = toDate.toDate(flight["arrives_at"])
         destinationAirport = flight["destination"]["airport"]
         destinationTerminal = flight["destination"]["terminal"]
