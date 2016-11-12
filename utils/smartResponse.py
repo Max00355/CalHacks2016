@@ -18,7 +18,7 @@ def smartResponse(messageType, variables): # Will change to smartResponse(to, me
 
     # Determine what kind of request it is, cheap / first class / etc. -> RIGHT NOW ONLY DOING CHEAPEST
     if messageType == "getFlights":
-        outputList = cheapestFlightResponse(variables)[:2]
+        outputList = cheapestFlightResponse(variables)[:3]
     elif messageType == "getHotels":
         outputList = cheapestHotelsResponse(variables)[:2]
     elif messageType == "getCarRentals":
@@ -69,22 +69,6 @@ def cheapestFlightResponse(variables):
             itineraryText += "Departs from " + originAirport + ", terminal " + originTerminal + " on " + departsAt + "\n\n"
             itineraryText += "Arrives at " + destinationAirport + ", terminal " + destinationTerminal + " on " + arrivesAt + "\n\n"
             itineraryText += "Flight number: " + flightNumber
-
-            print("from origin airport")
-            print(originAirport)
-            print("\n\n")
-
-            print("from out of")
-            print(outOf)
-            print("\n\n")
-
-            print("from destination airport")
-            print(destinationAirport)
-            print("\n\n")
-
-            print("from to")
-            print(to)
-            print("\n\n")
 
             if originAirport == outOf and destinationAirport == to:
                 print("MATCHED")
