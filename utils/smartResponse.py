@@ -2,6 +2,7 @@ import sendText
 import getFlights
 import toDate
 import pprint
+from flask import session
 
 def smartResponse(to, inputText):
 
@@ -51,7 +52,6 @@ def cheapestFlightResponse(inputText):
         outputText += "Flight number: " + flightNumber
 
         outputList.append(outputText)
-
 
 
     return outputList
