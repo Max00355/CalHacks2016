@@ -41,6 +41,8 @@ def cheapestFlightResponse(variables):
     if "message" in flightJson.keys():
         return [flightJson['message']]
 
+    airportsJsonData = json.load(open("utils/airportsJson.json"))
+
     outputList = []
     for result in flightJson["results"]:
         refundable = result["fare"]["restrictions"].get("refundable", "False")
@@ -55,6 +57,10 @@ def cheapestFlightResponse(variables):
 
             departsAt = toDate.toDate(flight.get("departs_at", "Unknown"))
             originAirport = flight.get("origin", {}).get("airport", "Unknown")
+            for state in airportsJsonData: # Turn origin airport into real name rather than code
+                for airportKey, airportValue in airportsJsonData[state].items():
+                    if airportValue == originAirport:
+                        originAirport = airportKey
             originTerminal = flight.get("origin", {}).get("terminal", "Unknown")
             
             if flight.get("arrives_at"):
@@ -62,6 +68,10 @@ def cheapestFlightResponse(variables):
             else:
                 arrivesAt = "Unknown"
             destinationAirport = flight.get("destination", {}).get("airport", "Unknown")
+            for state in airportsJsonData: # Turn destinationAirport airport into real name rather than code
+                for airportKey, airportValue in airportsJsonData[state].items():
+                    if airportValue == destinationAirport:
+                        destinationAirport = airportKey
             destinationTerminal = flight.get("destination", "Unknown").get("terminal", "Unknown")
 
             itineraryText = ""
@@ -73,46 +83,6 @@ def cheapestFlightResponse(variables):
             if originAirport == outOf and destinationAirport == to:
                 print("MATCHED")
                 outputList.append(itineraryText)
-
-    #     my_itinerary = '\n ... -> ... \n'.join(itinerary_list)
-    #     outputList.append(my_itinerary)
-
-    # print(json.dumps(outputList))
-
-    return outputList
-
-    # result = flightJson["results"][0]
-    
-    # refundable = result["fare"]["restrictions"].get("refundable", "False")
-    # fare = result.get("fare", {}).get("total_price", "Unknown")
-
-    # itineraries = result.get("itineraries", [])
-    # outputList = []
-    # for itinerary in itineraries:
-    #     flight = itinerary.get("outbound", {}).get("flights")[0]
-    #     #for flight in flights:
-    #     airline = getAirline.getAirline(flight.get("operating_airline", "Unknown"))
-    #     flightNumber = flight.get("flight_number", "Unknown")
-
-    #     departsAt = toDate.toDate(flight.get("departs_at", "Unknown"))
-    #     originAirport = flight.get("origin", {}).get("airport", "Unknown")
-    #     originTerminal = flight.get("origin", {}).get("terminal", "Unknown")
-        
-    #     if flight.get("arrives_at"):
-    #         arrivesAt = toDate.toDate(flight["arrives_at"])
-    #     else:
-    #         arrivesAt = "Unknown"
-    #     destinationAirport = flight.get("destination", {}).get("airport", "Unknown")
-    #     destinationTerminal = flight.get("destination", "Unknown").get("terminal", "Unknown")
-
-    #     outputText = ""
-    #     outputText += "$" + fare + " " + airline + " flight" + "\n\n"
-    #     outputText += "Departs from " + originAirport + ", terminal " + originTerminal + " on " + departsAt + "\n\n"
-    #     outputText += "Arrives at " + destinationAirport + ", terminal " + destinationTerminal + " on " + arrivesAt + "\n\n"
-    #     outputText += "Flight number: " + flightNumber
-
-    #     outputList.append(outputText)
-
 
     return outputList
 
