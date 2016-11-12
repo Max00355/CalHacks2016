@@ -17,8 +17,15 @@ def smartResponse(messageType, variables): # Will change to smartResponse(to, me
     # Turn input text into "outOf, to, leaves" -> NOT DOING THIS YET
 
     # Determine what kind of request it is, cheap / first class / etc. -> RIGHT NOW ONLY DOING CHEAPEST
+
     if messageType == "getFlights":
-        outputList = cheapestFlightResponse(variables)[:3]
+        outputList = cheapestFlightResponse(variables)
+        if len(outputList) == 0:
+            outputList = ["Sorry, we weren't able to find anything for you!"]
+        elif len(outputList) < 3:
+            outputList = outputList
+        else:
+            outputList = outputList[:3]
     elif messageType == "getHotels":
         outputList = cheapestHotelsResponse(variables)[:2]
     elif messageType == "getCarRentals":
