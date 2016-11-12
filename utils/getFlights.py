@@ -2,8 +2,8 @@ import amadeus
 
 API_KEY = "ikjnlVEIoDIonA0RaGak9TGmgTKGhhcv"
 
-def getFlights(outOf, to, leaves, returns=None):
-    flight = amadeus.Flights("ikjnlVEIoDIonA0RaGak9TGmgTKGhhcv")
+def getCheapestFlights(outOf, to, leaves, returns=None):
+    flight = amadeus.Flights(API_KEY)
     return flight.low_fare_search(
         origin=outOf,
         destination=to,
