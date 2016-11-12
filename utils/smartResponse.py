@@ -2,6 +2,7 @@ import getAirline
 import sendText
 import getFlights
 import getHotels
+import getCarRentals
 import toDate
 import pprint
 from flask import session
@@ -19,6 +20,8 @@ def smartResponse(messageType, variables): # Will change to smartResponse(to, me
         outputList = cheapestFlightResponse(variables)
     elif messageType == "getHotels":
         outputList = cheapestHotelsResponse(variables)[:2]
+    elif messageType == "getCarRentals":
+        outputList = cheapestCarRentalsResponse(variables)[:2]
     else:
         outputList = ["Sorry, I don't understand what you are asking"] 
     # Send output texts
@@ -89,7 +92,7 @@ def cheapestHotelsResponse(variables):
             if i["type"] == "PHONE":
                 phone = i["detail"]
                 break
-        address = result["address"]["line1"] + ", " + result["address"]["city"] + ", " + result["address"]["region"] + " " + str(result["address"]["postal_code"])
+        address = result["address"].get("line1", "") + ", " + result["address"].get("city", "") + ", " + result["address"].get("region", "") + " " + str(result["address"].get("postal_code", ""))
 
         outputText = ""
         outputText += propertyName + "\n\n"
@@ -100,5 +103,34 @@ def cheapestHotelsResponse(variables):
         outputList.append(outputText)
 
     return outputList
+
+def cheapestCarRentalsResponse(variables):
+    location = variables['location']
+    radius = variables['radius']
+    pickUp = variables['pickUp']
+    dropOff = variables['dropOff']
+
+    carsJson = getCarRentals.getCheapestCarRentals(location, radius, pickUp, dropOff)
+    if "message" in carsJson.keys():
+        return [hotelsJson['message']]
+
+    outputList = []
+    for result in carsJson["results"]:
+        provider = result["provider"]["company_name"]
+        address = result["address"].get("line1", "") + ", " + result["address"].get("city", "") + ", " + result["address"].get("region", "") + " " + str(result["address"].get("postal_code", ""))
+        numberOfCars = str(len(result["cars"]))
+
+        outputText = ""
+        outputText += "Provider: " + provider + "\n\n"
+        outputText += "Address: " + address + "\n\n"
+        outputText += "Total cars: " + numberOfCars
+
+        outputList.append(outputText)
+
+    return outputList
+
+
+
+
 
 
