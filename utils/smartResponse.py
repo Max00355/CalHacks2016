@@ -27,16 +27,19 @@ def cheapestFlightResponse(inputText):
 
     refundable = result["fare"]["restrictions"]["refundable"]
     fare = result["fare"]["total_price"]
-    flights = result["itineraries"][0]["outbound"]["flights"]
+
+    itineraries = result["itineraries"]
     outputList = []
-    for flight in flights:
+    for itinerary in itineraries:
+        flight = result["itineraries"][0]["outbound"]["flights"][0]
+        #for flight in flights:
         airline = flight["operating_airline"]
         flightNumber = flight["flight_number"]
 
         departsAt = toDate.toDate(flight["departs_at"])
         originAirport = flight["origin"]["airport"]
         originTerminal = flight["origin"]["terminal"]
-        
+
         arrivesAt = toDate.toDate(flight["arrives_at"])
         destinationAirport = flight["destination"]["airport"]
         destinationTerminal = flight["destination"]["terminal"]
@@ -48,6 +51,9 @@ def cheapestFlightResponse(inputText):
         outputText += "Flight number: " + flightNumber
 
         outputList.append(outputText)
+
+    
+
     return outputList
 
 

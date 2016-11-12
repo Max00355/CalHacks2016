@@ -10,3 +10,4 @@ def getCheapestFlights(outOf, to, leaves, returns=None):
         departure_date=leaves + "" if returns is None else "--{}".format(returns)
     )
     
+def get
