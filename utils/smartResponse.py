@@ -31,7 +31,7 @@ def cheapestFlightResponse(inputText):
     itineraries = result["itineraries"]
     outputList = []
     for itinerary in itineraries:
-        flight = result["itineraries"][0]["outbound"]["flights"][0]
+        flight = itinerary["outbound"]["flights"][0]
         #for flight in flights:
         airline = flight["operating_airline"]
         flightNumber = flight["flight_number"]
@@ -52,7 +52,7 @@ def cheapestFlightResponse(inputText):
 
         outputList.append(outputText)
 
-    
+
 
     return outputList
 
