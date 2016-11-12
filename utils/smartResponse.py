@@ -1,6 +1,7 @@
 import getAirline
 import sendText
 import getFlights
+import getHotels
 import toDate
 import pprint
 from flask import session
@@ -16,6 +17,8 @@ def smartResponse(messageType, variables): # Will change to smartResponse(to, me
     # Determine what kind of request it is, cheap / first class / etc. -> RIGHT NOW ONLY DOING CHEAPEST
     if messageType == "getFlights":
         outputList = cheapestFlightResponse(variables)
+    elif messageType == "getHotels":
+        outputList = cheapestHotelsResponse(variables)[:2]
     else:
         outputList = ["Sorry, I don't understand what you are asking"] 
     # Send output texts
@@ -67,5 +70,35 @@ def cheapestFlightResponse(variables):
 
     return outputList
 
+def cheapestHotelsResponse(variables):
+    location = variables['location']
+    radius = variables['radius']
+    checkIn = variables['checkIn']
+    checkOut = variables['checkOut']
+
+    hotelsJson = getHotels.getCheapestHotels(location, radius, checkIn, checkOut)
+    if "message" in hotelsJson.keys():
+        return [hotelsJson['message']]
+
+    outputList = []
+    for result in hotelsJson["results"]:
+        propertyName = result["property_name"]
+        totalPrice = result["total_price"]["amount"]
+        phone = "Unknown"
+        for i in result["contacts"]:
+            if i["type"] == "PHONE":
+                phone = i["detail"]
+                break
+        address = result["address"]["line1"] + ", " + result["address"]["city"] + ", " + result["address"]["region"] + " " + str(result["address"]["postal_code"])
+
+        outputText = ""
+        outputText += propertyName + "\n\n"
+        outputText += "Address: " + address + "\n\n"
+        outputText += "Total cost: " + str(totalPrice) + "\n\n"
+        outputText += "Phone #: " + str(phone)
+
+        outputList.append(outputText)
+
+    return outputList
 
 
