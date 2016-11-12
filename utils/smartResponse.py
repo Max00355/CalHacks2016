@@ -13,19 +13,20 @@ def smartResponse(to, inputText):
     outputText = cheapestFlightResponse(inputText)
 
     # send text message
-	sendText.sendText(to, outputText)
+    sendText.sendText(to, outputText)
 
 def cheapestFlightResponse(inputText):
 
     outOf, to, leaves = inputText.strip().split(' ')
-    flightJson = getCheapestFlights(outOf, to, leaves)
-
+    flightJson = getFlights.getCheapestFlights(outOf, to, leaves)
+    if "message" in flightJson.keys():
+        return flightJson['message']
     result = flightJson["results"][0]
 
     refundable = result["fare"]["restrictions"]["refundable"]
     fare = result["fare"]["total_price"]
 
-    flight0 = result["itineraries"][0]["outbound"]["flights"]
+    flight0 = result["itineraries"][0]["outbound"]["flights"][0]
 
     airline = flight0["operating_airline"]
     flightNumber = flight0["flight_number"]
@@ -38,7 +39,7 @@ def cheapestFlightResponse(inputText):
     destinationAirport = flight0["destination"]["airport"]
     destinationTerminal = flight0["destination"]["terminal"]
 
-    outputText = "There is a $" + fare + " " + airline + " flight that departs from " + originAirport + ", terminal " + originTerminal + " at " + departs_at + " and arrives at " + destinationAirport + ", terminal " + destinationTerminal + " at " + arrives_at + ". Flight number " + flight_number
+    outputText = "There is a $" + fare + " " + airline + " flight that departs from " + originAirport + ", terminal " + originTerminal + " at " + departsAt + " and arrives at " + destinationAirport + ", terminal " + destinationTerminal + " at " + arrivesAt + ". Flight number " + flightNumber
 
     return outputText
 

@@ -10,7 +10,7 @@ app = Blueprint(__name__, "server")
 def getText():
 	
 	# Get form
-	forms = request.form    
+    forms = request.form    
     from_ = forms['From']
     message = forms['Body']
 
@@ -18,5 +18,5 @@ def getText():
     smartResponse.smartResponse(from_, message)
 
     # Return
-	print from_ , message
+    print from_ , message
     return "ASD"
