@@ -26,7 +26,7 @@ def smartResponse(messageType, variables): # Will change to smartResponse(to, me
         outputList = ["Sorry, I'm not sure I understand."] 
     # Send output texts
     return '\n----------\n\n'.join(outputList)
-
+o
 def cheapestFlightResponse(variables):
     outOf = variables['from']
     to = variables['to']
