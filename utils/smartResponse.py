@@ -9,6 +9,7 @@ from flask import session
 import getAirportCode
 from db import db
 import pprint
+import json
 import convertDate
 
 def smartResponse(messageType, variables): # Will change to smartResponse(to, messageType, variables)
@@ -28,6 +29,7 @@ def smartResponse(messageType, variables): # Will change to smartResponse(to, me
     return '\n\n----------\n\n'.join(outputList)
 
 def cheapestFlightResponse(variables):
+
     outOf = variables['from']
     to = variables['to']
     leaves = convertDate.convertDate(variables['date'])
@@ -68,10 +70,15 @@ def cheapestFlightResponse(variables):
             itineraryText += "Arrives at " + destinationAirport + ", terminal " + destinationTerminal + " on " + arrivesAt + "\n\n"
             itineraryText += "Flight number: " + flightNumber
 
-            itinerary_list.append(itineraryText)
+            if destinationAirport == to:
+                outputList.append(itineraryText)
+            else:
+                print(destinationAirport)
+                print(to)
+    #     my_itinerary = '\n ... -> ... \n'.join(itinerary_list)
+    #     outputList.append(my_itinerary)
 
-        my_itinerary = '\n ... -> ... \n'.join(itinerary_list)
-        output.append(my_itinerary)
+    # print(json.dumps(outputList))
 
     return outputList
 
