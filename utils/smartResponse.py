@@ -23,9 +23,9 @@ def smartResponse(messageType, variables): # Will change to smartResponse(to, me
     elif messageType == "getCarRentals":
         outputList = cheapestCarRentalsResponse(variables)[:2]
     else:
-        outputList = ["Sorry, I don't understand what you are asking"] 
+        outputList = ["Sorry, I'm not sure I understand."] 
     # Send output texts
-    return '\n'.join(outputList)
+    return '\n----------\n\n'.join(outputList)
 
 def cheapestFlightResponse(variables):
     outOf = variables['from']
