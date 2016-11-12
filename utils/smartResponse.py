@@ -57,10 +57,6 @@ def cheapestFlightResponse(variables):
 
             departsAt = toDate.toDate(flight.get("departs_at", "Unknown"))
             originAirport = flight.get("origin", {}).get("airport", "Unknown")
-            for state in airportsJsonData: # Turn origin airport into real name rather than code
-                for airportKey, airportValue in airportsJsonData[state].items():
-                    if airportValue == originAirport:
-                        originAirport = airportKey
             originTerminal = flight.get("origin", {}).get("terminal", "Unknown")
             
             if flight.get("arrives_at"):
@@ -68,20 +64,31 @@ def cheapestFlightResponse(variables):
             else:
                 arrivesAt = "Unknown"
             destinationAirport = flight.get("destination", {}).get("airport", "Unknown")
-            for state in airportsJsonData: # Turn destinationAirport airport into real name rather than code
-                for airportKey, airportValue in airportsJsonData[state].items():
-                    if airportValue == destinationAirport:
-                        destinationAirport = airportKey
             destinationTerminal = flight.get("destination", "Unknown").get("terminal", "Unknown")
 
-            itineraryText = ""
-            itineraryText += "$" + fare + " " + airline + " flight" + "\n\n"
-            itineraryText += "Departs from " + originAirport + ", terminal " + originTerminal + " on " + departsAt + "\n\n"
-            itineraryText += "Arrives at " + destinationAirport + ", terminal " + destinationTerminal + " on " + arrivesAt + "\n\n"
-            itineraryText += "Flight number: " + flightNumber
-
+            # Check if matching, proper flights!!
             if originAirport == outOf and destinationAirport == to:
                 print("MATCHED")
+
+                # Fix so displays corrent values
+                for state in airportsJsonData: # Turn origin airport into real name rather than code
+                    for airportKey, airportValue in airportsJsonData[state].items():
+                        if airportValue == originAirport:
+                            originAirport = airportKey + "(" + airportValue + ")"
+
+                for state in airportsJsonData: # Turn destinationAirport airport into real name rather than code
+                    for airportKey, airportValue in airportsJsonData[state].items():
+                        if airportValue == destinationAirport:
+                            destinationAirport = airportKey + "(" + airportValue + ")"
+
+                # Since matched, create text
+                itineraryText = ""
+                itineraryText += "$" + fare + " " + airline + " flight" + "\n\n"
+                itineraryText += "Departs from " + originAirport + ", terminal " + originTerminal + " on " + departsAt + "\n\n"
+                itineraryText += "Arrives at " + destinationAirport + ", terminal " + destinationTerminal + " on " + arrivesAt + "\n\n"
+                itineraryText += "Flight number: " + flightNumber
+
+                # Append to list
                 outputList.append(itineraryText)
 
     return outputList
