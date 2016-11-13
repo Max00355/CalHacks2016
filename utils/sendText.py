@@ -7,6 +7,6 @@ def sendText(to, body):
     client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     client.messages.create(
         to = to,
-        from_ = '+12138066615' #'2062072038',
+        from_ = '+12138066615', #'2062072038',
         body = "\n\n" + body,
     )
