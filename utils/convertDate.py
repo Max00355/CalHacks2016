@@ -3,7 +3,14 @@ import toDate
 import datetime
 def convertDate(date):
 
+    if date == "":
+        mydate = datetime.datetime.now()
+        out = "{}-{}-{}".format(date.year + 1, month, day)
+        return out
+
+    print("date below")
     print(date)
+    print("date above")
 
     try:
         date = parser.parse(date)
