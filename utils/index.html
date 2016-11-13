@@ -1,202 +1,359 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Flight Bot</title>
-    </head>
-    <style>
-        body {
-            background-color: rgb(123,208,221);
-/*            overflow: hidden;*/
-            font-family: sans-serif;
-            color: white;
-            margin: 0;
-        }
-        
-        
-        .box {
-            position: relative;
-            height: 92vh;
-/*            background-color:  red;*/
-            width: 50%;
-            top: 0;
-            margin: 0;
-            float: left;
-        }
-        .white-space {
-            height: 3px;
-            background-color: white;
+
+<head>
+    <meta charset="utf-8">
+    <title>Flight Bot</title>
+</head>
+<style>
+    body {
+        background-color: rgb(123, 208, 221);
+        /*            overflow: hidden;*/
+        font-family: sans-serif;
+        color: white;
+        margin: 0;
+    }
+    
+    .box {
+        position: relative;
+        height: 92vh;
+        /*            background-color:  red;*/
+        width: 50%;
+        top: 0;
+        margin: 0;
+        float: left;
+    }
+    
+    .white-space {
+        height: 3px;
+        background-color: white;
+        width: 100%;
+    }
+    
+    .seventyfive {
+        width: 65%;
+        /*                        background-color:  red;*/
+    }
+    
+    .title-container {
+        bottom: 8%;
+        transform: translate(0, 40%);
+        position: absolute;
+        text-align: center;
+        /*            background-color: gray;*/
+        height: 90vh;
+        width: 100%;
+        font-size: 80px;
+        font-weight: 300;
+    }
+    
+    ul {
+        text-decoration: none;
+        text-decoration-style: none;
+        text-decoration-line: none;
+        list-style-type: none;
+    }
+    
+    .twentyfive {
+        width: 35%;
+    }
+    
+    .container {
+        position: absolute;
+        /*            background-color: antiquewhite;*/
+        width: 550px;
+        height: 100vh;
+        right: 0;
+    }
+    
+    .container img {
+        top: 22vh;
+        position: absolute;
+        left: 0%;
+        bottom: 0;
+    }
+    
+    .header {
+        /*            background-color: antiquewhite;*/
+        position: absolute;
+        height: 50px;
+        font-size: 20px;
+        width: 100%;
+        /*            text-align: right;*/
+        margin-top: 25px;
+        /*            margin-right: 30px;    */
+        padding: 10px;
+        /*            margin: auto;*/
+    }
+    
+    .header-title {
+        position: relative;
+        float: left;
+        width: 73%;
+        margin-top: -27px;
+        font-weight: 800;
+        font-size: 35px;
+        margin-left: 30px;
+    }
+    
+    .nav-items {
+        /*            background-color: coral;*/
+        left: 0;
+    }
+    
+    ul li {
+        display: inline;
+        margin-right: 25px;
+    }
+    
+    #contact {
+        padding: 10px 15px 10px 10px;
+        border: 2px solid white;
+    }
+    
+    .about {
+        background-color: white;
+        width: 100%;
+    }
+    
+    .topic-title {
+        position: absolute;
+        /*            height: 80px;*/
+        /*            width: 100px;*/
+        color: white;
+        ;
+        /*            background-color: black;*/
+        top: 20px;
+        right: 0;
+        font-size: 20px;
+        padding: 0px 30px 0px 25px;
+        margin-right: 40px;
+        margin-top: 20px;
+        background-color: rgb(123, 208, 221);
+    }
+    
+    .about-image {
+        position: relative;
+        height: 90vh;
+        /*            width: 900px;*/
+        /*            background-color: black;*/
+        overflow: hidden
+    }
+    
+    .about-image img {
+        position: relative;
+        width: 80%;
+        /*            background-color: blue;*/
+        left: 7%;
+        bottom: -5%;
+        transform: translate(5%, 0)
+    }
+    
+    .color-inverse {
+        color: rgb(123, 208, 221);
+        background-color: white;
+    }
+    
+    .register {
+        background-color: rgb(123, 208, 221);
+    }
+    
+    .forty {
+        width: 41%
+    }
+    
+    .sixty {
+        width: 59%;
+    }
+    
+    .hundred {
+        width: 100%;
+    }
+    
+    .register-container p {
+        font-size: 45px;
+        font-weight: 300;
+        margin: 5% 30% 0% 7%;
+        padding: 10px;
+    }
+    
+    .line {
+        width: 84%;
+        height: 3px;
+        background-color: white;
+        margin-top: 40px;
+        margin-left: 7.5%;
+    }
+    
+    .formm {
+        width: 84%;
+        height: 70%;
+        background-color: antiquewhite;
+        margin-left: 7.5%
+    }
+      .demo-container {
             width: 100%;
+            max-width: 30%;
+            margin: 100px 0 0 0; 
+            margin-left:  7.5%;
         }
-        .seventyfive {
-            width: 65%;
-/*                        background-color:  red;*/
+
+        .form {
+/*            margin: 30px 0 0 ;*/
         }
-        .title-container {
-            bottom: 8%;
-            transform: translate(0, 40%);
-            position: absolute;
-            text-align: center;
-/*            background-color: gray;*/
-            height: 90vh;
-            width: 100%;
-            font-size: 80px;
-            font-weight: 300;
-            
-        }
-        ul {
-            text-decoration: none;
-            text-decoration-style: none;
-            text-decoration-line: none;
-            list-style-type: none;
-        }
-        .twentyfive {
-            width: 35%;
-        }
-        .container {
-            position: absolute;
-/*            background-color: antiquewhite;*/
-            width: 550px;
-            height: 100vh;
-            right: 0;
+        .input {
+            width: 200px;
+/*            margin: 10px ;*/
+            display: inline-block;
         }
     
+    .form-container {
+        font-size: 30px;
+/*        margin-left: 16%;*/
+    }
+    input {
+/*        width: 200px;*/
+        padding: 0;
+        margin: 0;
+        height: 30px;
+        background-color: white;
+        border: 1px white solid;
+        color: black;
+        font-size: 15px;
         
-        .container img {
-            top: 22vh;
-            position: absolute;
-            left: 0%;
-            bottom: 0;
+        
+    }
+    .phone-container {
+        position: relative;
+        margin-left: 7.5%;
+/*        width: 43%;*/
+    }
+    .phone {
+        position: relative;
+        width: 45%;
+        float: left;
+/*        background-color: antiquewhite;*/
+    }
+    
+    .card-wrapper {
+        position: relative;
+        left: 0%;
+        margin-left: 0;
+        width: 350px;
+    }
+    .form-number {
+        text-align: center;
+        font-size: 10px;
+        margin-top: 30%;
+        transform: translate(0, -50%);
+/*        background-color: bisque;  */
+    }
+    .form-number p {
+        font-size: 25px;
+        margin-top: 20px;
+        margin-left: 0;  
+    }
+    h3 {
+        font-size: 20px;
+/*        margin-top: 200px;*/
+        border: 2px solid white;
+        padding: 10px;
+    }
+    .form-number input {
+        width: 60%;
+        height: 80px;
+        font-size: 60px;
+        background-color: transparent;
+        border: none; 
+    }
+    .submit {
+        position: absolute;
+        width: 100px;
+        left: 90%; 
+        bottom: -200%;
+    }
+    .form-number input::-webkit-input-placeholder {
+        color: white!important;
+}
+    .contact {
+        height: 200px;
+    }
+    
+</style>
+
+<body>
+    <div class="page">
+        <div class="header">
+            <div class="header-title">
+                <p>Flight Bot</p>
+            </div>
+            <div class="nav-items">
+                <ul>
+                    <li>about</li>
+                    <li>register</li>
+                    <li id="contact">contact</li>
+                </ul>
+            </div>
+        </div>
+        <div class="box seventyfive">
+            <div class="title-container">
+                <p>The future of <span style="font-weight: 700">flying</span>.</p>
+            </div>
+        </div>
+        <div class="box twentyfive">
+            <div class="container"><img src="Hand.png" /></div>
+        </div>
+    </div>
+    <div class="white-space box"></div>
+    <div class="box about">
+        <div class=topic-title>
+            <p>about</p>
+        </div>
+        <div class="about-image"><img src="About.png" /></div>
+    </div>
+    <div class="white-space box register"></div>
+    <div class="box hundred">
+        <div class="register-container">
+            <p>Register your phone to expediate the way you search for flights <span style="font-weight: 600">forever</span>.</p>
+        </div>
+        <div class="register-container line"></div>
+        <div class="register-container phone phone-container">
+            <div class="form-number">
+                <p>Your Phone Number</p>
+        <form action="">
+            <input placeholder="(888) 888 8888" type="text" name="Phone"></form>
+            <div class="submit"><h3>Submit</h3></div>
+            </div>
             
-        }
-        .header {
-/*            background-color: antiquewhite;*/
-            position: absolute;
-            height: 50px;
-            font-size: 20px;
-            width: 100%;
-/*            text-align: right;*/
-            margin-top: 25px;
-/*            margin-right: 30px;    */
-            padding: 10px;
-/*            margin: auto;*/
-            
-        }
-        .header-title {
-            position: relative;
-            float: left;
-            width: 73%;
-            margin-top: -27px;
-            font-weight: 800;
-            font-size: 35px;
-            margin-left: 30px;
-            
-        }
-        
-        .nav-items {
-/*            background-color: coral;*/
-            left: 0;
-        }
-        ul li {
-            display: inline;
-            margin-right: 25px;   
-        }
-        
-        #contact {
-            padding: 10px 15px 10px 10px;
-            border: 2px solid white;
-            
-        }
-        
-        .about {
-            background-color: white;
-            width: 100%;
-        }
-        .topic-title {
-            position: absolute;
-/*            height: 80px;*/
-/*            width: 100px;*/
-            color: white;;
-/*            background-color: black;*/
-            top: 20px;
-            right: 0;
-            font-size: 20px;
-            padding:0px 30px 0px 25px;
-            margin-right: 40px;
-            margin-top: 20px;
-            background-color: rgb(123,208,221);
-        }
-        .about-image {
-            position: relative;
-            height: 90vh;
-/*            width: 900px;*/
-/*            background-color: black;*/
-            overflow: hidden
-        }
-        .about-image img {
-            position: relative;
-            width: 80%;
-/*            background-color: blue;*/
-            left: 7%;
-            bottom: -5%;
-            transform: translate(5%, 0)
-        }
-        .color-inverse {
-            color: rgb(123,208,221);
-            background-color: white;
-        }
-        .register {
-            background-color: rgb(123,208,221);
-        
-        }
-        .forty {
-            width: 41%
-        }
-        .sixty {
-            width: 59%;
-        }
-        .hundred {
-            width: 100%;
-        }
-        .register-container p {
-            font-size: 45px;
-            font-weight: 300;
-            margin: 5% 30% 0% 7%; 
-            padding: 10px;
-            
-        }
-        .line {
-            width: 84%;
-            height: 3px;
-            background-color: white;
-            margin-top: 40px;
-            margin-left: 7.5%;
-        }
-        .form {
-            width: 84%;
-            height: 70%;
-            background-color: antiquewhite;
-            margin-left: 7.5%
-        }
-    </style>
-    <body>
-        <div class = "page">
-        <div class = "header">
-            <div class="header-title"><p>Flight Bot</p></div>
-            <div class="nav-items"><ul><li>about</li><li>register</li><li id = "contact">contact</li></ul></div></div>
-        
-        <div class = "box seventyfive"><div class = "title-container">
-            <p>The future of <span style="font-weight: 700">flying</span>.</p></div></div>
-        <div class = "box twentyfive">
-        <div class = "container"><img src="Hand.png"/></div>
+        </div>
+           <div class="demo-container phone">
+        <div class="card-wrapper"></div>
+
+        <div class="form-container active">
+            <form action="">
+                <input placeholder="Card number" type="text" name="number">
+                <input placeholder="Full name" type="text" name="name">
+                <input placeholder="MM/YY" type="text" name="expiry">
+                <input placeholder="CVC" type="text" name="cvc">
+                
+            </form>
         </div>
         </div>
-        <div class="white-space box"></div>
-        <div class="box about"><div class=topic-title><p>about</p></div>
-            <div class="about-image"><img src="About.png"/></div></div>
-        
-         <div class="white-space box register"></div>
-        
-        <div class="box hundred"><div class="register-container"><p>Register your phone to expediate the way you search for flights <span style="font-weight: 600">forever</span>.</p></div><div class="register-container line"></div><div class="register-container form"></div><div class="topic-title color-inverse"><p>register</p></div></div>
-    </body>
+        <div class="topic-title color-inverse">
+            <p>register</p>
+        </div>
+    </div>
+    <div class="box hundred color-inverse contact">
+<!--    <div>email us at <a href="mailto:miriamthendler@gmail.com">hello@miriamhendler.com</a></div>-->
+    </div>
+</body>
+ <script src="/utils/card.js"></script>
+    <script>
+
+        new Card({
+            form: document.querySelector('form'),
+            container: '.card-wrapper'
+        });
+    </script>
+
 </html>
