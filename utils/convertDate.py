@@ -11,7 +11,7 @@ def convertDate(date):
         date = parser.parse(date)
     except:
         mydate = datetime.datetime.now()
-        out = "{}-{}-{}".format(mydate.year, mydate.month, mydate.day)
+        out = "{}-{}-{}".format(mydate.year, mydate.month, mydate.day + 1)
         return out
 
     if (date - datetime.datetime.now()).days < 0:
