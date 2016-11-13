@@ -20,13 +20,13 @@ def getText():
         "date":date
     })
 
-@app.route("/purchase", methods=['POST'])
-def purchase():
+@app.route("/purchase/<to>", methods=['POST'])
+def purchase(to):
     resType = request.args.get('resType')
     digits = request.form.get('Digits')
     print(digits)
 
     # NEED TO STORE DIGITS?
 
-    return(purchaseHelp.purchaseHelp(resType))
+    return(purchaseHelp.purchaseHelp(to, resType))
     
