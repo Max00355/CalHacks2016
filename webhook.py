@@ -1,7 +1,7 @@
 from flask import *
 from utils import smartResponse, db
 import pprint
-import purchaseHelp
+from utils import purchaseHelp
 app = Blueprint(__name__, "server")
 
 # =================================================
@@ -20,10 +20,10 @@ def getText():
         "date":date
     })
 
-@app.route("/purchase")
+@app.route("/purchase", methods=['POST'])
 def purchase():
     resType = request.args.get('resType')
-    digits = request.args.get('Digits')
+    digits = request.form.get('Digits')
     print(digits)
 
     # NEED TO STORE DIGITS?

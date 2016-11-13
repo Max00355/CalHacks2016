@@ -1,5 +1,6 @@
+from flask import Response
 
-def purchaseHelp(resType)
+def purchaseHelp(resType):
     if resType == "card":
         xml = '<Response><Gather finishOnKey="*" action="https://44f611bc.ngrok.io/purchase?resType=exp"><Say>Please enter your credit card number and then press star.</Say></Gather></Response>'
         return Response(xml, mimetype='text/xml')
