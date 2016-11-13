@@ -33,14 +33,25 @@ def smartResponse(messageType, variables): # Will change to smartResponse(to, me
     else:
         outputList = ["Sorry, I'm not sure I understand."] 
     # Send output texts
-    return '\n\n----------\n\n'.join(outputList)
+    return '\n--\n'.join(outputList)
+
+def codeToFullName(originAirport):
+    return originAirport
+    airportsJsonData = json.load(open("utils/airportsJson.json"))
+
+    for state in airportsJsonData: # Turn origin airport into real name rather than code
+	for airportKey, airportValue in airportsJsonData[state].items():
+	    if airportValue == originAirport:
+		originAirport = airportKey + "(" + airportValue + ")"
+                return originAirport
+    return originAirport
+    
 
 def cheapestFlightResponse(variables):
 
     outOf = variables['from']
     to = variables['to']
     leaves = convertDate.convertDate(variables['date'])
-
     outOf = getAirportCode.getAirportCode(outOf)
     to = getAirportCode.getAirportCode(to)
 
@@ -48,56 +59,38 @@ def cheapestFlightResponse(variables):
     if "message" in flightJson.keys():
         return [flightJson['message']]
 
-    airportsJsonData = json.load(open("utils/airportsJson.json"))
 
     outputList = []
-    for result in flightJson["results"]:
-        refundable = result["fare"]["restrictions"].get("refundable", "False")
-        fare = result.get("fare", {}).get("total_price", "Unknown")
+    for result in flightJson.get("results", [])[:3]:
+        price = result.get("fare", {}).get("total_price", "Unknown")
+        for flights in result.get("itineraries", []):
+            connecting = flights.get("outbound", {}).get("flights", [])
+            isConnecting = "Connecting Flight" if len(connecting) > 1 else "Non Stop"
+            builtFlight = "Price: {}\n{}\n".format(price, isConnecting)
+            for flight in connecting:
+                aircraftType  = flight.get("aircraft", "Unknown")
+                leaves_at = toDate.toDate(flight.get("departs_at", "Unknown"))
+                seatsRemaining = flight.get("booking_info", {}).get("seats_remaining", "Unknown")
+                travel_class = flight.get("booking_info", {}).get("travel_class", "Unknown")
+                destination = codeToFullName(flight.get("destination", {}).get("airport", "Unknown"))
+                flightNumber = flight.get("flight_number", "Unknown")
+                airline = flight.get("operating_airline", "Unknown")
+                origin = codeToFullName(flight.get("origin", {}).get("airport", "Unknown"))
+                terminal = flight.get("origin", {}).get("terminal", "Unknown")
+                flightInfo = """
+Aircraft: {}
+Departing at: {}
+Seats Remaining: {}
+Class: {}
+Origin: {}
+Destinaton: {}
+Flight Number: {}
+Airline: {}
+Terminal: {}
 
-        itinerary_list = []
-        for itinerary in result.get("itineraries", []):
-            flight = itinerary.get("outbound", {}).get("flights")[0]
-            #for flight in flights:
-            airline = getAirline.getAirline(flight.get("operating_airline", "Unknown"))
-            flightNumber = flight.get("flight_number", "Unknown")
-
-            departsAt = toDate.toDate(flight.get("departs_at", "Unknown"))
-            originAirport = flight.get("origin", {}).get("airport", "Unknown")
-            originTerminal = flight.get("origin", {}).get("terminal", "Unknown")
-            
-            if flight.get("arrives_at"):
-                arrivesAt = toDate.toDate(flight["arrives_at"])
-            else:
-                arrivesAt = "Unknown"
-            destinationAirport = flight.get("destination", {}).get("airport", "Unknown")
-            destinationTerminal = flight.get("destination", "Unknown").get("terminal", "Unknown")
-
-            # Check if matching, proper flights!!
-            if originAirport == outOf and destinationAirport == to:
-                print("MATCHED")
-
-                # Fix so displays corrent values
-                for state in airportsJsonData: # Turn origin airport into real name rather than code
-                    for airportKey, airportValue in airportsJsonData[state].items():
-                        if airportValue == originAirport:
-                            originAirport = airportKey + "(" + airportValue + ")"
-
-                for state in airportsJsonData: # Turn destinationAirport airport into real name rather than code
-                    for airportKey, airportValue in airportsJsonData[state].items():
-                        if airportValue == destinationAirport:
-                            destinationAirport = airportKey + "(" + airportValue + ")"
-
-                # Since matched, create text
-                itineraryText = ""
-                itineraryText += "$" + fare + " " + airline + " flight" + "\n\n"
-                itineraryText += "Departs from " + originAirport + ", terminal " + originTerminal + " on " + departsAt + "\n\n"
-                itineraryText += "Arrives at " + destinationAirport + ", terminal " + destinationTerminal + " on " + arrivesAt + "\n\n"
-                itineraryText += "Flight number: " + flightNumber
-
-                # Append to list
-                outputList.append(itineraryText)
-
+                """.format(aircraftType, leaves_at, seatsRemaining, travel_class, origin, destination, flightNumber, airline, terminal)
+                builtFlight += flightInfo
+            outputList.append(builtFlight)
     return outputList
 
 def cheapestHotelsResponse(variables):
