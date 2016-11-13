@@ -2,7 +2,10 @@ from dateutil import parser
 import toDate
 import datetime
 def convertDate(date):
-    date = parser.parse(date)
+    try:
+        date = parser.parse(date)
+    except:
+        return None
     if (date - datetime.datetime.now()).days < 0:
         increment = True
     else:
