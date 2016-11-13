@@ -1,7 +1,7 @@
 from flask import *
 from utils import smartResponse, db
 import pprint
-from utils import purchaseHelp
+from utils import purchaseHelp, startPurchase
 app = Blueprint(__name__, "server")
 
 # =================================================
@@ -19,6 +19,12 @@ def getText():
         "to":toLocation,
         "date":date
     })
+
+@app.route('/initpurchase', methods=['POST']):
+def initpurchase():
+    to = request.form.get('to')
+
+    startPurchase.startPurchase(to)
 
 @app.route("/purchase", methods=['POST'])
 def purchase():
