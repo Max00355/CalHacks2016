@@ -61,12 +61,13 @@ def cheapestFlightResponse(variables):
 
 
     outputList = []
+    flightNumber_ = 1    
     for result in flightJson.get("results", [])[:3]:
         price = result.get("fare", {}).get("total_price", "Unknown")
         for flights in result.get("itineraries", []):
             connecting = flights.get("outbound", {}).get("flights", [])
             isConnecting = "Connecting Flight" if len(connecting) > 1 else "Non Stop"
-            builtFlight = "Price: {}\n{}\n".format(price, isConnecting)
+            builtFlight = "Flight Number: {}\nPrice: {}\n{}\n".format(flightNumber_, price, isConnecting)
             for flight in connecting:
                 aircraftType  = flight.get("aircraft", "Unknown")
                 leaves_at = toDate.toDate(flight.get("departs_at", "Unknown"))
@@ -91,6 +92,7 @@ Terminal: {}
                 """.format(aircraftType, leaves_at, seatsRemaining, travel_class, origin, destination, flightNumber, airline, terminal)
                 builtFlight += flightInfo
             outputList.append(builtFlight)
+        flightNumber_ += 1
     return outputList
 
 def cheapestHotelsResponse(variables):
