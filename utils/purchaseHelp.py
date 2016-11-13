@@ -16,7 +16,7 @@ def purchaseHelp(to, resType):
         return Response(xml, mimetype='text/xml')
     elif resType == "finish":
         # WHAT DO WE DO WHEN THEY FINISH ENTERING EVERYHTING????
-        xml = '<Response><Gather><Say>Your flight has been booked. You will receive a text message containing your confirmation code shortly.</Say></Gather></Response>'
+        xml = '<Response><Gather><Say>Your flight has been booked. You will receive a text message containing your confirmation code shortly. Thank you.</Say></Gather></Response>'
         for f in db[to]['flightInfo'].split("--"):
             if "Number: {}".format(db[to]["selectedFlight"]) in f:
                 break
