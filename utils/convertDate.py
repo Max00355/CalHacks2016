@@ -3,11 +3,6 @@ import toDate
 import datetime
 def convertDate(date):
 
-    if date == "":
-        mydate = datetime.datetime.now()
-        out = "{}-{}-{}".format(date.year + 1, month, day)
-        return out
-
     print("date below")
     print(date)
     print("date above")
@@ -15,7 +10,9 @@ def convertDate(date):
     try:
         date = parser.parse(date)
     except:
-        return None
+        mydate = datetime.datetime.now()
+        out = "{}-{}-{}".format(date.year + 1, month, day)
+        return out
 
     if (date - datetime.datetime.now()).days < 0:
         increment = True
