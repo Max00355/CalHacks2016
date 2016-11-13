@@ -13,32 +13,32 @@ def getText():
     fromLocation = data.get("fromLoc")
     toLocation = data.get("toLoc")
     date = data.get("date")
+    phone = data.get("to").replace("+", '')
 
-    return smartResponse.smartResponse("getFlights", {
+    resp = smartResponse.smartResponse("getFlights", {
         "from":fromLocation,
         "to":toLocation,
         "date":date
     })
+    db.db[phone] = {"flightInfo":resp, "cardInfo":[]}
+    return resp
 
 @app.route('/initpurchase', methods=['POST'])
 def initpurchase():
     request.form = request.get_json()
-    to = request.form.get('to')
+    to = request.form.get('to').replace("+", "")
+    flight = request.form.get("flightNum")
+    db.db[to]['selectedFlight'] = flight
     startPurchase.startPurchase(to)
     return "You will receive a call in a few seconds prompting you to fill out your payment info."
 
 @app.route("/purchase", methods=['POST'])
 def purchase():
     resType = request.args.get('resType')
+    to,resType = resType.split("-")
     digits = request.form.get('Digits')
-    to = request.form.get('to')
-    if resType == "card":
-        db.db[to] = {"card":digits}
-    elif resType == "exp":
-        db.db[to]["exp"] = digits
-    elif resType == "cvc":
-        db.db[to]["cvc"] = digits
+    if "cardInfo" in db.db[to] and digits:
+        db.db[to]["cardInfo"].append(digits)
     # NEED TO STORE DIGITS?
-
     return(purchaseHelp.purchaseHelp(to, resType))
     
