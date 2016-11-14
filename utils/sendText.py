@@ -1,7 +1,8 @@
 from twilio.rest import TwilioRestClient
+from getKeys import keys
 
-ACCOUNT_SID = 'AC735604fda9d8b915edeecb9507965e37' #'AC87769992cf0edbd7bfbd177e6c15a760'
-AUTH_TOKEN = 'bab3976396b77198d3cb80f99abb17c5' #'5995687694981b0d7f5097a5ce418acb'
+ACCOUNT_SID = keys['twilio']['public'] 
+AUTH_TOKEN = keys['twilio']['private']
 
 def sendText(to, body):
     client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)

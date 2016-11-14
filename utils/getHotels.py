@@ -1,7 +1,8 @@
 import amadeus
 from geopy.geocoders import Nominatim
+from getKeys import keys
 
-API_KEY = "ikjnlVEIoDIonA0RaGak9TGmgTKGhhcv"
+API_KEY = keys['amadeus']['private']
 
 def getCheapestHotels(locationText, radius, checkIn, checkOut, returns=None):
 

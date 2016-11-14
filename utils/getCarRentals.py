@@ -3,8 +3,9 @@ import requests
 import pyperclip
 import json
 from geopy.geocoders import Nominatim
+from getKeys import keys
 
-API_KEY = "ikjnlVEIoDIonA0RaGak9TGmgTKGhhcv"
+API_KEY = keys['amadeus']['private']
 
 def getCheapestCarRentals(locationText, radius, pickUp, dropOff, returns=None):
 

@@ -1,6 +1,8 @@
 import amadeus
+from getKeys import keys
 
-API_KEY = "ikjnlVEIoDIonA0RaGak9TGmgTKGhhcv"
+
+API_KEY = keys['amadeus']['private']
 
 def getCheapestFlights(outOf, to, leaves, returns=None):
     flight = amadeus.Flights(API_KEY)
